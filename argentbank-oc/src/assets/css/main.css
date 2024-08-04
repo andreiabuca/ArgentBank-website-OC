@@ -23,6 +23,10 @@ body {
   background-color: #12002b;
 }
 
+.signin-flex {
+  display: flex;
+}
+
 .sr-only {
   border: 0 !important;
   clip: rect(1px, 1px, 1px, 1px) !important; /* 1 */
@@ -171,13 +175,13 @@ body {
   box-sizing: border-box;
   background-color: white;
   width: 300px;
-  margin: 0 auto;
+  margin: 4rem auto;
   margin-top: 3rem;
   padding: 2rem;
 }
 
 .sign-in-icon {
-  font-size: 5rem;
+  font-size: 1.5rem;
 }
 
 .input-remember {
@@ -209,6 +213,7 @@ body {
   justify-content: center;
   border-top: 2px solid #ccc;
   padding: 2rem 0 1.5rem;
+  background-color: white;
 }
 
 .footer-text {
@@ -264,6 +269,7 @@ body {
 .header {
   color: #fff;
   margin-bottom: 2rem;
+  padding: 0.5rem;
 }
 
 .transaction-button {

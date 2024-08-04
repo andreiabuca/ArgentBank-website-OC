@@ -1,15 +1,20 @@
 import React from 'react';
+import { Route, Routes } from 'react-router-dom';
 import './assets/css/main.css';
-import NavBar from './components/navbar';
-import Footer from './components/footer';
+import Home from './pages/home';
+import SignIn from './pages/SignIn';
+import User from './pages/user'; 
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <NavBar/>
-      <Footer/>
-    </div>
+    <>
+      <Routes>
+        <Route path="/home" element={<Home />} />
+        <Route path="/signin" element={<SignIn />} />
+        <Route path="/user" element={<User />} />
+      </Routes>
+    </>
   );
-}
+};
 
 export default App;
