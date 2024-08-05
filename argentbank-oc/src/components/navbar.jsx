@@ -9,7 +9,7 @@ const NavBar = () => {
   const location = useLocation();
     return (
         <nav className="main-nav">
-      <Link className="main-nav-logo" to="/home">
+      <Link className="main-nav-logo" to="/">
         <img
           className="main-nav-logo-image"
           src={logo}
@@ -22,7 +22,7 @@ const NavBar = () => {
           <LogOut />
         ) : (
           <Link className="main-nav-item" to="/Login">
-            <i className="fa fa-user-circle"></i>
+            <i className="fa fa-user-circle i-margin"></i>
             Sign In
           </Link>
         )}

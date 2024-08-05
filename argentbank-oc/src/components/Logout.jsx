@@ -9,7 +9,7 @@ const SignOut = () => {
           <i className="fa fa-user-circle"></i>
           Tony
         </Link>
-        <Link className="main-nav-item" to="/home">
+        <Link className="main-nav-item" to="/">
           <i className="fa fa-sign-out"></i>
           Sign Out
         </Link>
