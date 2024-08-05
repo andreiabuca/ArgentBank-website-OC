@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import '../assets/css/main.css'; 
 import logo from '../assets/img/argentBankLogo.png';
-import SignOut from "./signout";
+import LogOut from "./Logout";
 
 const NavBar = () => {
   const location = useLocation();
@@ -19,9 +19,9 @@ const NavBar = () => {
       </Link>
       <div>
       {location.pathname === '/user' ? (
-          <SignOut />
+          <LogOut />
         ) : (
-          <Link className="main-nav-item" to="/signin">
+          <Link className="main-nav-item" to="/Login">
             <i className="fa fa-user-circle"></i>
             Sign In
           </Link>
