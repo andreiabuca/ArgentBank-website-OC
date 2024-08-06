@@ -1,10 +1,13 @@
 import React from "react";
 import '../assets/css/main.css'; 
+import { useSelector } from 'react-redux';
 
 const Header = () => {
+  const { userInfo } = useSelector((state) => state.user);
+
     return (
         <div className="header">
-        <h1>Welcome back<br />Tony Jarvis!</h1>
+        <h1>Welcome back<br />{userInfo ? userInfo.userName : 'User'}!</h1>
         <button className="edit-button">Edit Name</button>
       </div>
     );
