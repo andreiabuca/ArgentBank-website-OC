@@ -2,7 +2,7 @@ import React from "react";
 import '../assets/css/main.css'; 
 import { Link } from "react-router-dom";
 
-const SignOut = () => {
+const LogOut = () => {
     return (
         <div>
         <Link className="main-nav-item" to="/user">
@@ -17,4 +17,4 @@ const SignOut = () => {
     );
 };
 
-export default SignOut; 
+export default LogOut; 
