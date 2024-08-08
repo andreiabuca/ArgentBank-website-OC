@@ -1,27 +1,57 @@
-import React from "react";
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { loginFailed, loginSuccess } from '../actions/auth.actions';
+import { isValidEmail, isValidPassword } from '../utils/regex.jsx';
 import '../assets/css/main.css';
 import NavBar from "../components/navbar";
 import Footer from "../components/footer";
-import { loginUser, fetchUserDetails } from "../userSlice";
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { status, error } = useSelector((state) => state.user);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    dispatch(loginUser({ email, password })).then((response) => {
-      if (response.meta.requestStatus === 'fulfilled') {
-        dispatch(fetchUserDetails(response.payload.body.token)); 
-        navigate('/user', { replace: true });
+    //Error message 
+    if (!isValidEmail(email)) {
+      setErrorMessage("Invalid email adress");
+      return;
+    }
+    if (!isValidPassword(password)) {
+      setErrorMessage("Invalid password");
+      return;
+    }
+    try {
+      const response = await fetch("http://localhost:3001/api/v1/user/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        const token = data.body.token;
+        dispatch(loginSuccess(token));
+        sessionStorage.setItem("token", token);
+        if (rememberMe) {
+          localStorage.setItem("token", token);
+        }
+        navigate('/user');
+      } else {
+        const error = "Incorrect email/password"
+        dispatch(loginFailed(error));
       }
-    });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -34,19 +64,19 @@ function Login() {
           <form onSubmit={handleSubmit}>
             <div className="input-wrapper">
               <label htmlFor="username">Username</label>
-              <input type="text" id="username" onChange={(e) => setEmail(e.target.value)} />
+              <input type="text" id="username" value={email} onChange={(event) => setEmail(event.target.value)} />
             </div>
             <div className="input-wrapper">
               <label htmlFor="password">Password</label>
-              <input type="password" id="password" onChange={(e) => setPassword(e.target.value)} />
+              <input type="password" id="password" value={password} onChange={(event) => setPassword(event.target.value)} />
             </div>
             <div className="input-remember">
-              <input type="checkbox" id="remember-me" />
+              <input type="checkbox" id="remember-me" checked={rememberMe} onChange={(event) => setRememberMe(event.target.checked)} />
               <label htmlFor="remember-me">Remember me</label>
             </div>
             <button type="submit" className="sign-in-button">Sign In</button>
+            {errorMessage && <p className='error-message'>{errorMessage}</p>}
           </form>
-          {status === 'failed' && <p className="error-message">{error}</p>}
         </section>
       </main>
       <Footer />
