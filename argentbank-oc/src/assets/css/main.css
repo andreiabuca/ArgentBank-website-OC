@@ -124,6 +124,8 @@ body {
   width: 200px;
   margin: 4rem auto;
   margin-top: 0;
+  padding: 1rem;
+  color: #fff;
 }
 
 .profile-content h1 {
@@ -134,7 +136,7 @@ body {
 .profile-button {
   display: flex;
   gap: 0.5rem;
-  justify-content: right;
+  justify-content: center;
 }
 
 .profile-button button {
@@ -147,7 +149,6 @@ body {
     cursor: pointer; 
     margin-top: 1rem;
     border-radius: 2px;
-    opacity: 0.8;
 }
 
 .account.custom-color {
