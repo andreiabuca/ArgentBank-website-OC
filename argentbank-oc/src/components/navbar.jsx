@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { logout } from '../actions/auth.actions';
 import '../assets/css/main.css';
-import logo from '../assets/img/argentBankLogo.png';
+import logo from '../assets/img/argentBankLogo.webp';
 
 function NavBar() {
   /* Updates user data on header component from state redux */
