@@ -101,6 +101,286 @@ paths:
           description: Invalid Fields
         '500':
           description: Internal Server Error
+  /user/account:
+    get: 
+      tags: 
+        - Transaction Module 
+      summary: Retrieve all user accounts
+      description: API for fetching a list of all accounts associated with the authenticated user.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Bearer JWT token for authorization
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Accounts retrieved successfully
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/AccountResponse'
+        '400':
+          description: Invalid request
+        '401':
+          description: Unauthorized request
+        '500':
+          description: Internal server error
+  /user/transactions:
+    get:
+      tags: 
+      - Transaction Module
+      summary: Fetch current month transactions
+      description: API for retrieving all transactions for the current month for the authenticated user.
+      parameters:
+        - name: Authorization
+          in: header
+          description: Bearer JWT token for authorization
+          required: true
+          type: string
+      responses:
+        '200':
+          description: User transactions retrieved successfully
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/TransactionsResponse'
+        '400':
+          description: Invalid fields provided
+        '401':
+          description: Unauthorized request
+        '404':
+          description: Transactions not found
+        '500':
+          description: Internal server error
+  /account/{accountID}/transactions:
+    get:
+      tags: 
+      - Transaction Module
+      summary: Retrieve transactions for a specific account
+      description: API for fetching all transactions associated with a specific account.
+      parameters:
+        - name: accountID
+          in: path
+          description: ID of the account
+          required: true
+          type: string
+        - name: Authorization
+          in: header
+          description: Bearer JWT token for authorization
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Transactions for the account retrieved successfully
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/TransactionsResponse'
+        '400':
+          description: Invalid account ID
+        '401':
+          description: Unauthorized request
+        '404':
+          description: Account or transactions not found
+        '500':
+          description: Internal server error
+  /transactions/{transactionID}/category:
+    put:
+      tags: 
+      - Transaction Module
+      summary: Update the category of a transaction
+      description: API for updating the category assigned to a specific transaction.
+      parameters:
+        - name: transactionID
+          in: path
+          description: ID of the transaction
+          required: true
+          type: string
+        - name: category
+          in: body
+          description: New category for the transaction
+          required: true
+          schema:
+            $ref: '#/definitions/TransactionCategory'
+        - name: Authorization
+          in: header
+          description: Bearer JWT token for authorization
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Category updated successfully
+          schema:
+            type: object
+            properties:
+              transactionID:
+                type: string
+                description: ID of the updated transaction
+              newCategory:
+                type: string
+                description: The new category assigned to the transaction
+            required:
+              - transactionID
+              - newCategory
+          examples:
+            application/json:
+              transactionID: "12345"
+              newCategory: "Business Expenses"
+        '400':
+          description: Invalid category or transaction ID
+        '401':
+          description: Unauthorized request
+        '404':
+          description: Transaction not found
+        '500':
+          description: Internal server error
+  /transactions/{transactionID}/note:
+    post:
+      tags: 
+      - Transaction Module
+      summary: Add a note to a transaction
+      description: API for adding a new note to a specific transaction.
+      parameters:
+        - name: transactionID
+          in: path
+          description: ID of the transaction
+          required: true
+          type: string
+        - name: note
+          in: body
+          description: Note to be added
+          required: true
+          schema:
+            $ref: '#/definitions/TransactionNote'
+        - name: Authorization
+          in: header
+          description: Bearer JWT token for authorization
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Note added successfully
+          schema:
+            $ref: '#/definitions/TransactionResponseNote'
+          examples:
+            application/json:
+              transactionID: "12345"
+              noteID: "67890"
+              note: "This is a new note"
+        '400':
+          description: Invalid note or transaction ID
+        '401':
+          description: Unauthorized request
+        '404':
+          description: Transaction not found
+        '500':
+          description: Internal server error
+  /transactions/{transactionID}/note/{noteID}:
+    put:
+      tags: 
+      - Transaction Module
+      summary: Modify an existing note of a transaction
+      description: API for updating an existing note attached to a transaction.
+      parameters:
+        - name: transactionID
+          in: path
+          description: ID of the transaction
+          required: true
+          type: string
+        - name: noteID
+          in: path
+          description: ID of the note to be updated
+          required: true
+          type: string
+        - name: note
+          in: body
+          description: Updated note content
+          required: true
+          schema:
+            $ref: '#/definitions/TransactionNote'
+        - name: Authorization
+          in: header
+          description: Bearer JWT token for authorization
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Note updated successfully
+          schema:
+            $ref: '#/definitions/TransactionResponseNote'
+          examples:
+            application/json:
+              transactionID: "12345"
+              noteID: "67890"
+              note: "Updated note content"
+        '400':
+          description: Invalid note or transaction ID
+        '401':
+          description: Unauthorized request
+        '404':
+          description: Transaction or note not found
+        '500':
+          description: Internal server error
+    delete:
+      tags: 
+      - Transaction Module
+      summary: Delete a note from a transaction
+      description: API for removing a specific note from a transaction.
+      parameters:
+        - name: transactionID
+          in: path
+          description: ID of the transaction
+          required: true
+          type: string
+        - name: noteID
+          in: path
+          description: ID of the note to be deleted
+          required: true
+          type: string
+        - name: Authorization
+          in: header
+          description: Bearer JWT token for authorization
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Note deleted successfully
+          schema:
+            type: object
+            properties:
+              transactionID:
+                type: string
+                description: ID of the transaction from which the note was deleted
+              noteID:
+                type: string
+                description: ID of the deleted note
+            required:
+              - transactionID
+              - noteID
+          examples:
+            application/json:
+              transactionID: "12345"
+              noteID: "67890"
+        '400':
+          description: Invalid note or transaction ID
+        '401':
+          description: Unauthorized request
+        '404':
+          description: Note or transaction not found
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                description: Error message indicating that the note or transaction was not found
+            required:
+              - error
+          examples:
+            application/json:
+              error: "Transaction or note not found"
+        '500':
+          description: Internal server error
 securityDefinitions:
   Bearer:
     type: apiKey
@@ -156,3 +436,70 @@ definitions:
     properties:
       userName:
         type: string
+  AccountResponse:
+    type: object
+    properties:
+      accountID:
+        type: string
+        description: Unique identifier for the account
+      accountName:
+        type: string
+        description: Name of the account
+      accountCurrency:
+        type: string
+        description: Currency of the account
+      currentBalance:
+        type: number
+        description: Current balance of the account
+        format: double
+  TransactionsResponse:
+    type: object
+    properties:
+      transactionID:
+        type: string
+        description: Unique identifier for the transaction
+      transactionType:
+        type: string
+        description: Type of the transaction (e.g., credit, debit)
+      date:
+        type: string
+        format: date-time
+        description: Date and time when the transaction occurred
+      description:
+        type: string
+        description: Description or label for the transaction
+      amount:
+        type: number
+        format: double
+        description: Amount of the transaction
+      balance:
+        type: number
+        format: double
+        description: Balance available after the transaction
+      category:
+        type: string
+        description: Category associated with the transaction
+      note:
+        type: string
+        description: User-defined note or comment about the transaction
+  TransactionCategory:
+    type: object
+    properties:
+      category:
+        type: string
+        description: The category to assign or update for the transaction
+  TransactionNote:
+    type: object
+    properties:
+      note:
+        type: string
+        description: Note to be added or updated for the transaction
+  TransactionResponseNote:
+    type: object
+    properties:
+      noteID:
+        type: string
+        description: Unique identifier for the note
+      note:
+        type: string
+        description: Content of the note
