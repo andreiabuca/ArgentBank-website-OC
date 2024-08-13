@@ -8,7 +8,7 @@ import logo from '../assets/img/argentBankLogo.webp';
 function NavBar() {
   /* Updates user data on header component from state redux */
   const isConnected = useSelector((state) => state.auth.token);
-  const firstname = useSelector((state) => state.user.userData.firstname);
+  const username = useSelector((state) => state.user.userData.username);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -33,7 +33,7 @@ function NavBar() {
         <div className='connected'>
           <Link to='/user'>
             <i className='fa fa-user-circle i-margin' />
-            <p>{firstname}</p>
+            <p>{username}</p>
           </Link>
           <Link className="main-nav-item" to='/' onClick={logoutHandler}>
             <i className='fa fa-sign-out space' />

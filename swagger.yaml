@@ -103,6 +103,8 @@ paths:
           description: Internal Server Error
   /user/account:
     get: 
+      security:
+        - Bearer: []
       tags: 
         - Transaction Module 
       summary: Retrieve all user accounts
@@ -128,6 +130,8 @@ paths:
           description: Internal server error
   /user/transactions:
     get:
+      security:
+        - Bearer: []
       tags: 
       - Transaction Module
       summary: Fetch current month transactions
@@ -155,6 +159,8 @@ paths:
           description: Internal server error
   /account/{accountID}/transactions:
     get:
+      security:
+        - Bearer: []
       tags: 
       - Transaction Module
       summary: Retrieve transactions for a specific account
@@ -187,6 +193,8 @@ paths:
           description: Internal server error
   /transactions/{transactionID}/category:
     put:
+      security:
+        - Bearer: []
       tags: 
       - Transaction Module
       summary: Update the category of a transaction
@@ -237,6 +245,8 @@ paths:
           description: Internal server error
   /transactions/{transactionID}/note:
     post:
+      security:
+        - Bearer: []
       tags: 
       - Transaction Module
       summary: Add a note to a transaction
@@ -278,6 +288,8 @@ paths:
           description: Internal server error
   /transactions/{transactionID}/note/{noteID}:
     put:
+      security:
+        - Bearer: []
       tags: 
       - Transaction Module
       summary: Modify an existing note of a transaction
@@ -323,6 +335,8 @@ paths:
         '500':
           description: Internal server error
     delete:
+      security:
+        - Bearer: []
       tags: 
       - Transaction Module
       summary: Delete a note from a transaction
